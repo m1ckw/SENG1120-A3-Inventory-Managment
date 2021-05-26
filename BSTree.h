@@ -95,8 +95,8 @@ class BSTree
 		
 		// Precondition: A node must already exist.  
 		// Postcondition: The target node will be deleted and any data contained returned. 
-		BTNode<T>* remove(BTNode<T>* node, T& data) {			// Removes the head node from the linked list.
-			BTNode<T>* temp = NULL;                        		// Creates a temp node pointer set to null.
+		BTNode<T>* remove(BTNode<T>* node, T& data) {			// Removes the target node from the linked list.
+			BTNode<T>* temp = NULL;								// Creates a temp node pointer set to null.
 			if (node == NULL) {									// Checks that the node exists, returns null if true.
 				return temp;
 			}
