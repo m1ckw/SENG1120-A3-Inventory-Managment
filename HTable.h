@@ -124,7 +124,7 @@ class HTable
 template<typename T>
 ostream& operator << (ostream& out, HTable<T>& table)   // Non member output operator overlaod function.
 {
-	return table.print(out);                            // Calls the print function above. 
+	return table.print(out);                        // Calls the print function above. 
 }
 
 #endif
