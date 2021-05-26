@@ -71,7 +71,7 @@ class HTable
         void remove(T& data) {                                  // Deletes the target object from the heap
             int position = hashfun(data);                       // Calls the hash function to find the location of the target.
             if (hashArray[position] != NULL) {                  // Checks for NULL incase of an error
-                delete hashArray[position];                     // Deletes the target object 
+                delete hashArray[position];                     // Deletes the target object. 
                 hashArray[position] = NULL;                     // Sets the pointer to NULL. 
             }
         }
