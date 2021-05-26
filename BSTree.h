@@ -22,14 +22,14 @@ class BSTree
 
 		// Precondition: None
 		// Postcondition: Sets the root node pointer to NULL and the size of the tree to 0. 
-		BSTree() {												// Creates an empty tree setting the root to NULL.
+		BSTree() {							// Creates an empty tree setting the root to NULL.
 			root = NULL;
 			size = 0;
 		}
 
 		// Precondition: None
 		// Postcondition: A new instance of a Binary Search Tree is created with a single node..
-		BSTree(T data) {										// Creates a tree with its first node.
+		BSTree(T data) {					// Creates a tree with its first node.
 			root = new BTNode<T>(data);
 		}
 
@@ -49,7 +49,7 @@ class BSTree
 				removeNodes(node->getLeft());					// Deleting left leaves .
 				removeNodes(node->getRight());					// Deleting right leaves.
 				delete node;									// Deletes the final node.
-				size--;											// Decrements size by 1.
+				size--;											
 			}
 		}
 
@@ -58,7 +58,7 @@ class BSTree
 		void add(const T& data) {								// Adds a new node to the BST in position.
 			if (root == NULL) {									// Checks for existing root node. 
 				root = new BTNode<T>(data);						// Creates a root node if none exist. 
-				size++;											// Increments the size of the tree by 1. 
+				size++;										 
 			} else {
 				add(root, data);								// Call to Recursive add function to start at the root,
 			}													// traverse the tree and place the node is position.
