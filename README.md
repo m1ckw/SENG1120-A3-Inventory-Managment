@@ -1,16 +1,15 @@
 
-# seng1120_A3 - Grade Received: __
+# seng1120_A3 - Grade: __
 
 SENG1120 is a Data Structures course run by the University of Newcastle. 
 
 Assignment Scope:   
-                    Build a new version of the traditional board game Connect Four. 
-                    The board will be implemented as an array of seven stacks.
-                    Each stack should be implemented using Node, LinkedList and LStack classes.
-                    You will need to implement the logic of the game inside the class GameplayStack: 
-                    how to add pieces, checking for the winner or tie after each piece is added to the board, 
-                    and displaying either the message "X Wins", "O Wins", or "Game Tie". 
-                    You will also need to display the board at the end.
+                    You are in charge of inventory management support in a factory. 
+                    You are required to create binary search tree and hash table data structures to store instances of a class MechPart. 
+                    Both data structures should have functions to add, remove, display, overloaded operators, among others. 
+                    The classes MUST be implemented as class templates. 
+                    The binary search tree class must be called BSTree and will use as nodes instances of BTNode. 
+                    The hash table class must be named HTable.
 
 Requirements:       
                     Your code must work seemlesly with the files supplied.
@@ -31,5 +30,6 @@ Marking Criteria:
                       • Lack of use of dynamic memory allocation in Node or LinkedList (____/-10.0)
                       • Use of friend qualifier (____/-2.0)
                       • Violation of encapsulation / information hiding (e.g. use of global variables) (____/-5.0)
-                      • Concrete Implementation in the header file (____/-2.0)
                       • Correctness of Submission, filenames and format (___/-5.0)
+                      • Concrete Implementation in the header file (____/-2.0)
+                      • Lack of recursive calls for BSTree functions, etc (____/-3.0)
