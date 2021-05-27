@@ -139,8 +139,8 @@ class BSTree
 			}
 			return out;
 		}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private:
 		BTNode<T>* root;								// Private member variable that points to the head node.
 		int size;									// Private member variable that stores the size of the tree.
