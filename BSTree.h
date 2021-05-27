@@ -37,24 +37,28 @@ class BSTree
 
 		// Precondition: A node must exist. 
 		// Postcondition: Deletes all nodes in the list.
-		    // Calls the removeNodes() recursive function removing each node from the tree untill none remain.
+		    // Calls the removeNodes() recursive function setting the start point to the root.
 		~BSTree() {                                 
 			removeNodes(root);
 		}
 
+		// Precondition: A node with data exists.  
+		// Postcondition: Recursive function removing each node in the tree below the starting node.
 		void removeNodes(BTNode<T>* node) {						// Recursive function - traverses tree deleting leaf nodes.
 			if (node == NULL) {							// Checks node exists and returns if null.
 				return;
 			} else {
-				removeNodes(node->getLeft());					// Deleting left leaves .
-				removeNodes(node->getRight());					// Deleting right leaves.
-				delete node;							// Deletes the final node.
+				removeNodes(node->getLeft());					// Deleting left side.
+				removeNodes(node->getRight());					// Deleting right side.
+				delete node;							// Deletes the node.
 				size--;											
 			}
 		}
 
 		////////// MUTATOR FUNCTIONS (SETTERS) //////////
 
+		// Precondition: None. Creates a root node if none exist, else calls the recursive function.
+		// Postcondition: Creates a new node with the data passed and adds it to the tree in order. 
 		void add(const T& data) {							// Adds a new node to the BST in position.
 			if (root == NULL) {							// Checks for existing root node. 
 				root = new BTNode<T>(data);					// Creates a root node if none exist. 
@@ -63,7 +67,85 @@ class BSTree
 				add(root, data);						// Call to Recursive add function to start at the root,
 			}									// traverse the tree and place the node is position.
 		}
-		// Precondition: A Root node exists.
+		
+		// Precondition: A node must already exist. However deals with the null case by calling the private remove() function.   
+		// Postcondition: The target node will be deleted and any data contained returned. 
+		void remove(T& data) {								// Passes the target data to be deleted.
+			BTNode<T>* rootNode = root;						// Creates a temp node pointer set to the root node.
+			rootNode = remove(rootNode, data);					// Calls the recursive remove function to traverse the tree,
+		}										// from the root to locate the target data. 
+		
+		////////// ACCESSOR FUNCTIONS (GETTERS) /////////	
+
+		// Precondition: A BST exisits. 
+		// Postcondition: The function will return the current size of the tree. 
+		int getSize() const {
+			return size;
+		} 
+
+		// Precondition: A node with data exisits. Returns null if there is no node. 
+		// Postcondition: Finds the node that contains the maximum value.
+		BTNode<T>* findMax(BTNode<T>* const node) const {			 
+			if (node == NULL) {							// Checks that a node exists
+				return NULL;
+			}
+			if (node->getRight() == NULL) {						// Checks for right node, if null, max is current node.
+				return node;
+			}	
+			return findMax(node->getRight());					// Recursive call on the function until the max has been found.
+		}
+
+		// Precondition: A node with data exisits. Returns null if there is no node. 
+		// Postcondition: Finds the node that contains the minimum value. 
+		BTNode<T>* findMin(BTNode<T>* const node) const {
+			if (node == NULL) {							// Checks that a node exists
+				return NULL;
+			}
+			if (node->getLeft() == NULL) {						// Checks for left node, if null, min is current node.
+				return node;									
+			}
+			return findMin(node->getLeft());					// Recursive call on the function until the min has been found.
+		}	                             	                            
+
+		// Precondition: Nodes with inventory exist. Returns 0 if no inventory doesn't exist.
+		// Postcondition: Calls the private recursive function to start the count of all inventory from the root node. 
+		int calculateInventory() {	
+			int count = 0;								// Sets the count to 0.
+			count = calculateInventory(root);					// Recursive function call. 
+			return count;								// Returns the count
+		}
+
+		// Precondition: Nodes with parts exist. Returns 0 if parts don't exist.
+		// Postcondition: Calls the private recursive function to count the number of different parts starting from the root node.
+		int calculateParts() {
+			int count = 0;								// Sets the count to 0.
+			count = calculateParts(root);						// Recursive function call.
+			return count;								// Returns the count
+		}
+
+		// Precondition: A node with data exists. 
+		// Postcondition: Calls the recursive print function setting the starting point at the root.  
+		ostream& print(ostream& out) {
+			return print(out, root);
+		}
+
+		// Precondition: A node with data exists.
+		// Postcondition: Reteives data and prints the BST with an inorder traversal treating the node specified as the root.  
+		ostream& print(ostream& out, const BTNode<T>* node) {
+			if (node != NULL) {
+				print(out, node->getLeft());					// Recursive call to the LEFT of the tree 
+				out << node->getData() << " ";					// Prints current nodes data 
+				print(out, node->getRight());					// Recursive call to the Right of the tree 
+			}
+			return out;
+		}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private:
+		BTNode<T>* root;								// Private member variable that points to the head node.
+		int size;									// Private member variable that stores the size of the tree.
+
+		// Precondition: None. This function is called by the add() public member function that deals with the precondition.
 		// Postcondition: Adds a node to the relevant position and updates relevant pointers.
 		BTNode<T>* add(BTNode<T>* node,const T& data) {
 			if (data == node->getData()) {						// Checks if the data is equivalent to existing.
@@ -85,16 +167,9 @@ class BSTree
 			}
 			return node;
 		}
-		
-		// Precondition: A node must already exist.  
-		// Postcondition: The target node will be deleted and any data contained returned. 
-		void remove(T& data) {								// Passes the target data to be deleted.
-			BTNode<T>* rootNode = root;						// Creates a temp node pointer set to the root node.
-			rootNode = remove(rootNode, data);					// Calls the recursive remove function to traverse the tree,
-		}										// from the root to locate the target data. 
-		
-		// Precondition: A node must already exist.  
-		// Postcondition: The target node will be deleted and any data contained returned. 
+
+		// Precondition: A node should exist, however deals with the null case. Called by the public member remove() function.
+		// Postcondition: The target node will be deleted, tree reorganised, and any data contained returned. 
 		BTNode<T>* remove(BTNode<T>* node, T& data) {					// Removes the target node from the linked list.
 			BTNode<T>* temp = NULL;							// Creates a temp node pointer set to null.
 			if (node == NULL) {							// Checks that the node exists, returns null if true.
@@ -133,49 +208,9 @@ class BSTree
 			}
 			return node;								// Returns the deleted node. 
 		}
-		
-		////////// ACCESSOR FUNCTIONS (GETTERS) /////////	
 
-		// Precondition: A BST exisits. 
-		// Postcondition: The function will return the current size of the tree. 
-		int getSize() const {
-			return size;
-		} 
-
-		// Precondition: A node with data exisits. Returns null if there is no node. 
-		// Postcondition: Finds the node that contains the maximum value.
-		BTNode<T>* findMax(BTNode<T>* const node) const {			 
-			if (node == NULL) {							// Checks that a node exists
-				return NULL;
-			}
-			if (node->getRight() == NULL) {						// Checks for right node, if null, max is current node.
-				return node;
-			}	
-			return findMax(node->getRight());					// Recursive call on the function until the max has been found.
-		}
-
-		// Precondition: A node with data exisits. Returns null if there is no node. 
-		// Postcondition: Finds the node that contains the minimum value. 
-		BTNode<T>* findMin(BTNode<T>* const node) const {
-			if (node == NULL) {							// Checks that a node exists
-				return NULL;
-			}
-			if (node->getLeft() == NULL) {						// Checks for left node, if null, min is current node.
-				return node;									
-			}
-			return findMin(node->getLeft());					// Recursive call on the function until the min has been found.
-		}	                             	                            
-
-		// Precondition: Nodes with inventory exist. Returns 0 if no inventory doesn't exist.
-		// Postcondition: Calls the recursive function to start the count of all inventory from the root node. 
-		int calculateInventory() {	
-			int count = 0;								// Sets the count to 0.
-			count = calculateInventory(root);					// Recursive function call. 
-			return count;								// Returns the count
-		}
-
-		// Precondition: Nodes with inventory exist. Returns 0 if inventory doesn't exist. 
-		// Postcondition: Calculates the total inventory of parts and returns that value. 
+		// Precondition: Nodes with inventory exist. Returns 0 if inventory doesn't exist. Called by the public function calculatInventory(). 
+		// Postcondition: Calculates the total inventory of parts and returns that integer value. 
 		int calculateInventory(BTNode<T>* node) {
 			int count = 0;
 			if (node != NULL) {							// Ensures a node exists.
@@ -186,15 +221,7 @@ class BSTree
 			return count;								// Returns the count.
 		}
 
-		// Precondition: Nodes with parts exist. Returns 0 if parts don't exist.
-		// Postcondition: Calls the recursive function to start the count of the number of different parts from the root node.
-		int calculateParts() {
-			int count = 0;								// Sets the count to 0.
-			count = calculateParts(root);						// Recursive function call.
-			return count;								// Returns the count
-		}
-
-		// Precondition: Nodes with parts exist. Returns 0 if parts don't exist. 
+		// Precondition: Nodes with parts exist. Returns 0 if parts don't exist. Called by the public member function calculateParts().
 		// Postcondition: Calculates the total number of part types and returns that value. 
 		int calculateParts(BTNode<T>* node) {
 			int count = 0;
@@ -206,26 +233,6 @@ class BSTree
 			return count;										
 		}
 
-		// Precondition: A node with data exists. 
-		// Postcondition: Calls the recursive print function setting the starting point at the root.  
-		ostream& print(ostream& out) {
-			return print(out, root);
-		}
-
-		// Precondition: A node with data exists.
-		// Postcondition: Reteives data and prints the BST with an inorder traversal.  
-		ostream& print(ostream& out, const BTNode<T>* node) {
-			if (node != NULL) {
-				print(out, node->getLeft());					// Recursive call to the LEFT of the tree 
-				out << node->getData() << " ";					// Prints current nodes data 
-				print(out, node->getRight());					// Recursive call to the Right of the tree 
-			}
-			return out;
-		}
-	
-	private:
-		BTNode<T>* root;								// Private member variable that points to the head node.
-		int size;									// Private member variable that stores the size of the tree.
 };
 
 template<typename T>
