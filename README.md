@@ -1,5 +1,5 @@
 
-# seng1120_A3 - Grade: __
+# seng1120_A3 - Grade: 12.5/15 (83%) - Overlooked memorty leek, 2.5 mark deduction. 
 
 SENG1120 is a Data Structures course run by the University of Newcastle. 
 
@@ -20,7 +20,7 @@ Restrictions:
                     
 Marking Criteria:   
                     If the program compiles you receive full marks (15) less deductions as follows;
-                      • Code leads to memory leaks during execution (____/-1.0)
+                      • Code leads to memory leaks during execution (____/-2.0)
                       • Lack of macroguards (____/-1.0)
                       • Lack of destructors (____/-1.0)
                       • Lack of const qualifiers (____/-1.0)
