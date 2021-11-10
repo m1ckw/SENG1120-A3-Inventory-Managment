@@ -1,5 +1,6 @@
 
-# seng1120_A3 - Grade: 12.5/15 (83%) - Overlooked memorty leek, 2.5 mark deduction. 
+# SENG1120-A3 Inventory Management. 
+Grade: 12.5/15 (83%) - Overlooked memory leek, 2.5 mark deduction. 
 
 SENG1120 is a Data Structures course run by the University of Newcastle. 
 
